@@ -1,3 +1,6 @@
+# author H. C. Das 
+# 10 january 2022
+
 import numpy as np
 from scipy.constants import pi
 import matplotlib.pyplot as plt
@@ -25,17 +28,17 @@ gam_snm = 4      # for SNM
 
 gam_pnm = 2      # for pnm
 
-# Masses of nucleons
-      
+# Mass of nucleons      
 mn = 4.758   # fm^-1    
 
-dt=0.01
+# spacing
+dt = 0.01    
 
 #++++++++++++++++++++++++++++++++++++++++++++#
 # for symmetric nuclear matter, gamma = 4
 def fun_snm(m_snm,kf):
 
-    ef=np.sqrt(m_snm**2+kf**2)   # fm^-1
+    ef = np.sqrt(m_snm**2+kf**2)   # fm^-1
 
     m_eff_snm = m_snm - mn + ((267.1/mn**2) \
               *(gam_snm*m_snm/(4.*pi**2)))*(kf*ef-(m_snm**2*np.log((kf+ef)/m_snm))) # fm^-1
@@ -45,7 +48,7 @@ def fun_snm(m_snm,kf):
 # pure for neutron matter, gamma = 2
 def fun_pnm(m_pnm,kf):          
 
-    ef=np.sqrt(m_pnm**2+kf**2)  # fm^-1
+    ef = np.sqrt(m_pnm**2+kf**2)  # fm^-1
 
     m_eff_pnm = m_pnm - mn + ((267.1/mn**2) \
               *(gam_pnm*m_pnm/(4.*pi**2)))*(kf*ef-(m_pnm**2*np.log((kf+ef)/m_pnm))) # fm^-1
@@ -129,13 +132,13 @@ press_snm = []
 be_snm = []
 
 for i in range(1,270):
-      kf=i*dt
+      kf = i*dt
       mom_snm.append(kf)
 
       # for SNM
-      r_snm=gam_snm*kf**3/(6*pi**2)
+      r_snm = gam_snm*kf**3/(6*pi**2)
       rho_snm.append(r_snm)
-      sol_s=optimize.root(fun_snm, ([4.5,0.01]), method='lm', args=(kf))
+      sol_s = optimize.root(fun_snm, ([4.5,0.01]), method='lm', args=(kf))
       effm_snm.append(sol_s.x[0]/4.758)
       ener_snm.append(energy_snm(sol_s.x[0],kf))
       press_snm.append(pressure_snm(sol_s.x[0],kf))
@@ -150,12 +153,12 @@ press_pnm = []
 be_pnm = []
 
 for i in range(1,270):
-      kf=i*dt
+      kf = i*dt
       # for PNM
       mom_pnm.append(kf)
-      r_pnm=gam_pnm*kf**3/(6*pi**2)
+      r_pnm = gam_pnm*kf**3/(6*pi**2)
       rho_pnm.append(r_pnm)
-      sol_p=optimize.root(fun_pnm, ([4.5,0.01]), method='lm', args=(kf))
+      sol_p = optimize.root(fun_pnm, ([4.5,0.01]), method='lm', args=(kf))
       effm_pnm.append(sol_p.x[0]/4.758)
       ener_pnm.append(energy_pnm(sol_p.x[0],kf))
       press_pnm.append(pressure_pnm(sol_p.x[0],kf))
@@ -163,12 +166,12 @@ for i in range(1,270):
 
 OUT_snm = np.c_[mom_snm, rho_snm, effm_snm, ener_snm, press_snm, be_snm];
 
-# Output to file nm.dat
+# Output to file snm.dat
 np.savetxt('snm.dat', OUT_snm, fmt='%1.8e')
 
 OUT_pnm = np.c_[mom_pnm, rho_snm, effm_snm, ener_snm, press_snm, be_snm];
 
-# Output to file nm.dat
+# Output to file pnm.dat
 np.savetxt('pnm.dat', OUT_pnm, fmt='%1.8e')
 
 print(min(be_snm))
