@@ -169,7 +169,7 @@ OUT_snm = np.c_[mom_snm, rho_snm, effm_snm, ener_snm, press_snm, be_snm];
 # Output to file snm.dat
 np.savetxt('snm.dat', OUT_snm, fmt='%1.8e')
 
-OUT_pnm = np.c_[mom_pnm, rho_snm, effm_snm, ener_snm, press_snm, be_snm];
+OUT_pnm = np.c_[mom_pnm, rho_pnm, effm_pnm, ener_pnm, press_pnm, be_pnm];
 
 # Output to file pnm.dat
 np.savetxt('pnm.dat', OUT_pnm, fmt='%1.8e')
